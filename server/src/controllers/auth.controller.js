@@ -10,29 +10,62 @@ const {
  * Register a new user
  */
 exports.register = async (req, res) => {
+  console.log("REGISTER BODY 👉", req.body);
   try {
-    const { name, email, password, org_id ,role } = req.body;
+    const { name, email, password, org_id, role } = req.body;
 
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(409).json({ message: "Email already registered" });
+    // 1️⃣ Validate required fields
+    if (!name || !email || !password || !org_id) {
+      return res.status(400).json({
+        message: "Name, email, password and org_id are required"
+      });
     }
 
+    // 2️⃣ Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(409).json({
+        message: "Email already registered"
+      });
+    }
+
+    // 3️⃣ Secure role assignment (IMPORTANT)
+    const allowedRoles = ["employee", "manager"];
+    const userRole = allowedRoles.includes(role) ? role : "employee";
+
+    // 4️⃣ Hash password
     const hashedPassword = await bcrypt.hash(password, 12);
 
+    // 5️⃣ Create user
     const user = await User.create({
       name,
       email,
-      org_id,
-      role,
-      password: hashedPassword
+      password: hashedPassword,
+      org_id: Number(org_id),
+      role: userRole,
+      status: "active"
     });
 
-    res.status(201).json({ message: "User registered successfully" });
+    // 6️⃣ Respond
+    res.status(201).json({
+      message: "User registered successfully",
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        org_id: user.org_id
+      }
+    });
+
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error("Register error:", err);
+    res.status(500).json({
+      message: "Internal server error"
+    });
   }
 };
+
 
 /**
  * Login user
