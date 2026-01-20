@@ -1,0 +1,56 @@
+# =========================
+# Environment variables
+# =========================
+.env
+.env.*
+!.env.example
+
+# =========================
+# Node dependencies
+# =========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# =========================
+# Next.js
+# =========================
+.next/
+out/
+build/
+dist/
+.vercel/
+.next/cache/
+
+# =========================
+# Backend builds
+# =========================
+coverage/
+logs/
+*.log
+
+# =========================
+# OS generated files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Editor / IDE
+# =========================
+.vscode/
+.idea/
+*.swp
+
+# =========================
+# Testing
+# =========================
+*.lcov
+
+# =========================
+# Misc
+# =========================
+.cache/
+.temp/
