@@ -28,11 +28,7 @@ const userSchema = new mongoose.Schema(
       default: "employee"
     },
     
-    org_id: {
-      type: Number,
-      required: true,
-      index: true
-    },
+    org_id: { type: mongoose.Schema.Types.ObjectId, ref: "Organization", required: true },
 
     status: {
       type: String,
