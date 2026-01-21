@@ -5,4 +5,6 @@ const { createOrganization } = require("../controllers/org.controller");
 // POST /api/org/create
 router.post("/create", createOrganization);
 
+
+
 module.exports = router;
