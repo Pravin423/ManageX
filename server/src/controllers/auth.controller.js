@@ -30,7 +30,7 @@ exports.register = async (req, res) => {
     }
 
     // 3️⃣ Secure role assignment (IMPORTANT)
-    const allowedRoles = ["employee", "manager"];
+    const allowedRoles = ["employee", "manager","admin"];
     const userRole = allowedRoles.includes(role) ? role : "employee";
 
     // 4️⃣ Hash password
