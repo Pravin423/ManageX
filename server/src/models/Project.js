@@ -8,6 +8,7 @@ const projectSchema = new mongoose.Schema({
   endDate: Date,
   manager: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   employees: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  org: { type: mongoose.Schema.Types.ObjectId, ref: "Organization", required: true },
   tasks: [
     {
       title: String,

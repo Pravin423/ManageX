@@ -18,6 +18,7 @@ router.post(
       console.log("Body:", req.body);
 
       const { name, description, managerId, employees } = req.body;
+      const orgId = req.user.org_id;
 
       if (!name) {
         return res.status(400).json({ message: "Project name is required" });
@@ -48,6 +49,7 @@ router.post(
         description,
         manager: assignedManager,
         employees: validEmployees,
+        org: orgId,
       });
 
       console.log("✅ PROJECT CREATED:", project._id);
@@ -69,15 +71,13 @@ router.get("/", authMiddleware, async (req, res) => {
     console.log("User:", req.user);
 
     const userId = req.user.id || req.user._id;
-    let query = {};
-
+    let query = { org: req.user.org_id };
     if (req.user.role === "manager") {
       query.manager = userId;
     } else if (req.user.role === "employee") {
       query.employees = userId;
     }
-    // admin → no filter
-
+    // admin → filter by org only
     const projects = await Project.find(query)
       .populate("manager", "name email role")
       .populate("employees", "name email role")
