@@ -44,5 +44,6 @@ app.get("/api/test", (req, res) => {
 // Route middlewares
 app.use("/api/auth", authRoutes);
 app.use("/api/org", orgRoutes); // <-- THIS LINE WAS MISSING
+app.use("/api/users", require("./routes/user.routes"));
 
 module.exports = app;
